@@ -8,14 +8,12 @@ Application::Application(int argc, char *argv[])
 {
 }
 
-using namespace std;
 
-void menu(int &ch)
+void Application::menu(int &ch)
 {
-    cout << endl << "1. Ввести коэффициенты полинома" << endl;
-    cout << "2. Вывести полином" << endl;
-    cout << "3. Завершить программу" << endl;
-    cout << endl << "Ввод: ";
+    cout << endl << "1. Enter the coefficients of the polynomial" << endl;
+    cout << "2. Complete the program" << endl;
+    cout << endl << "Input: ";
     cin >> ch;
 }
 
@@ -26,47 +24,68 @@ void Application::exec()
     while(true)
     {
         menu(ch);
-        if(ch == 0)
-            break;
-        switch (ch)
-        {
-        case 1:
-        {
-            int a = 0;
-            int b = 0;
-            int c = 0;
-            cout << "Введите коэффицинеты полинома" << endl;
-            bool rightIn = false;
-            cin.exceptions(istream::failbit | istream::badbit);
-            while(!rightIn)
-            {
-                try
-                {
-                    cin >> a;
-                    cin >> b;
-                    cin >> c;
-                    rightIn = true;
-                }
-                catch(istream::failure e)
-                {
-                    cout << "Некорректный ввод, поробуйте еще раз" << endl;
+        if (!ch) {
                     cin.clear();
+                    while (cin.get() != '\n');
+                    cout << "Incorrect input. Repeat the entry!" << endl;
                 }
+        else {
+            if(ch == 2)
+                break;
+            switch (ch)
+            {
+            case 1:
+            {
+                int a = 0;
+                int b = 0;
+                int c = 0;
+                cout << "������ �����樭��� �������� (ax^2 + bx + c)" << endl;
+                while (true) {
+                        cout << "Enter the coefficient a: ";
+                        cin >> a;
+                        if (cin.good() == false) {
+                            cin.clear();
+                            while (cin.get() != '\n');
+                            cout << "Incorrect input. Repeat the entry!" << endl;
+                        }
+                        else break;
+                }
+                while (true) {
+                        cout << "Enter the coefficient b: ";
+                        cin >> b;
+                        if (cin.good() == false) {
+                            cin.clear();
+                            while (cin.get() != '\n');
+                            cout << "Incorrect input. Repeat the entry!" << endl;
+                        }
+                        else break;
+                }
+                while (true) {
+                        cout << "Enter the coefficient c: ";
+                        cin >> c;
+                        if (cin.good() == false) {
+                            cin.clear();
+                            while (cin.get() != '\n');
+                            cout << "Incorrect input. Repeat the entry!" << endl;
+                        }
+                        else break;
+                }
+                Polinom *polinom = new Polinom(a, b, c);
+                polinom->calculateX();
+                cout << "Result of calculating the roots of the polynomial: " << endl << *polinom << endl;
+                if (polinom->getX()->size() == 1)
+                    cout << "The equation has one root: x = " << polinom->getX()->first();
+                else if(polinom->getX()->size() == 2)
+                    cout << "The equation has two roots:" << endl << "x1 = " << *polinom->getX()->begin() << " x2 = " << *(polinom->getX()->begin() + 1) << endl;
+                else
+                    cout << "The equation has no roots";
+            }
+                break;
+            default:
+                break;
             }
 
-            Polinom *polinom = new Polinom(a, b, c);
-            polinom->calculateX();
-            cout << "Результат вычисления коренй полинома: " << endl << *polinom << endl;
-            if (polinom->getX()->size() == 1)
-                cout << "Уравнение имеет один корень: x = " << polinom->getX()->first();
-            else if(polinom->getX()->size() == 2)
-                cout << "Уравнение имеет два корня:" << endl << "x1 = " << *polinom->getX()->begin() << " x2 = " << *(polinom->getX()->begin() + 1) << endl;
-            else
-                cout << "Уравнение не имеет коренй";
         }
-            break;
-        default:
-            break;
-        }
+
     }
 }
