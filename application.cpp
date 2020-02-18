@@ -39,7 +39,7 @@ void Application::exec()
                 int a = 0;
                 int b = 0;
                 int c = 0;
-                cout << "Введите коэффицинеты полинома (ax^2 + bx + c)" << endl;
+                cout << "Enter the coefficients of the polynomial (ax^2 + bx + c)" << endl;
                 while (true) {
                         cout << "Enter the coefficient a: ";
                         cin >> a;
